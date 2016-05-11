@@ -18,11 +18,13 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     sourcemaps = require('gulp-sourcemaps'),
     less = require('gulp-less'),
-    sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
 	jshint = require('gulp-jshint'),
-	csslint = require('gulp-csslint'),
+	csslint = require('gulp-csslint');
+    /*
+    sass = require('gulp-sass'),
     scsslint = require('gulp-scss-lint');
+    */
 
 
 /****************
@@ -114,6 +116,7 @@ gulp.task('less', ['less:compile', 'less:watch']);
 /************
  *** SASS ***
  ************/
+/*
 gulp.task('sass:compile', function() {
     console.log('sass:compile COMPILING!');
     var pipes = gulp.src([
@@ -148,7 +151,7 @@ gulp.task('sass:watch', function() {
     return watcher;
 });
 gulp.task('sass', ['sass:compile', 'sass:watch']);
-
+*/
 
 /******************
  *** JS BUNDLES ***
@@ -261,7 +264,7 @@ gulp.task('css:watch', function() {
 /***************
  *** COMPILE ***
  ***************/
-gulp.task('compile', ['less:compile', 'sass:compile', 'css:bundles', 'js:bundles'], function(done) { done(); });
+gulp.task('compile', ['less:compile', /*'sass:compile',*/ 'css:bundles', 'js:bundles'], function(done) { done(); });
 
 
 /*************
@@ -277,11 +280,7 @@ gulp.task('serve', ['compile'], function() {
         middleware: [
             rewrite([
                 '!\\.html|\\.js|\\.css|\\.map|\\.svg|\\.jp(e?)g|\\.png|\\.gif$ /index.html'
-            ]),
-            function(request, response, next) {
-                if (request.url !== '/hello') return next();
-                response.end('<h1>Hello, world from ' + options.host + ':' + options.port + '!</h1>');
-            },
+            ])
         ],
         livereload: {
             enable: true, // need this set to true to enable livereload
@@ -297,7 +296,7 @@ gulp.task('serve', ['compile'], function() {
 /*************
  *** WATCH ***
  *************/
-gulp.task('watch', ['less:watch', 'sass:watch', 'css:watch', 'js:watch'], function(done) { done(); });
+gulp.task('watch', ['less:watch', /*'sass:watch',*/ 'css:watch', 'js:watch'], function(done) { done(); });
 
 
 /*************

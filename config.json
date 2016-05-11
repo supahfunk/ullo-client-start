@@ -14,15 +14,18 @@
         "css": [],
         "js": [{
             "src": [
-                "./bower_components/angular/angular.js"
+                "./bower_components/angular/angular.js",
+                "./bower_components/angular-route/angular-route.js"
             ],
             "folder": "./wwwroot/js/vendors"
         }, {
             "src": [
                 "./src/js/app.js",
                 "./src/js/animations/animations.js",
+                "./src/js/config/config.js",
                 "./src/js/controllers/controllers.js",
 				"./src/js/directives/directives.js",
+				"./src/js/filters/filters.js",
                 "./src/js/models/models.js",
                 "./src/js/providers/providers.js",
                 "./src/js/services/services.js",
@@ -52,7 +55,7 @@
 	"lints": {
 		"js": false,
 		"css": false,
-		"scss": true
+		"scss": false
 	},
     "server": {
         "name": "dev.ullowebapp",
