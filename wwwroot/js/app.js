@@ -12,6 +12,29 @@ var CONFIG = {
     IOS: (navigator.userAgent.match(/iPad|iPhone|iPod/g) ? true : false),
 };
 
+var app = angular.module('ullo', []);
+
+app.controller('textCtrl', ['$scope', '$timeout', '$http', function($scope, $timeout, $http) {
+    
+    var apiUrl = 'http://ulloapi.wslabs.it';
+    
+    $scope.titolo = 'titolo';
+    
+    $timeout(function(){
+        $scope.titolo = 'titolone';
+    }, 2000);
+    
+    $http.get(apiUrl + '/api/stream/anonymous').then(function(response){
+        console.log(response);
+        
+        $scope.items = response.data;
+    }, function(error){
+        
+    });
+    
+    
+    
+}]);
 /*global angular,dynamics*/
 
 /*global angular,FB */

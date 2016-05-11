@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" class="desktop">
+<html xmlns="http://www.w3.org/1999/xhtml" class="desktop" ng-app="ullo">
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,32 +10,41 @@
     <base href="/" target="_self">
     <title>Ullo</title>
     <link rel="shortcut icon" href="/img/icons/favicon.ico">
-	<!-- css -->
+    <!-- css -->
     <link href="css/bootstrap-3/bootstrap.min.css" rel="stylesheet">
     <link href="css/app.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="screen">
         <div class="page navigation">
-			<div class="inner splash">
-				<section class="vertical brand">
-					<div class="inner">
-						<div class="logo sm"><img src="/img/logo_ullo_1.png" class="bounce infinite animated" /></div>
-					</div>
-				</section>
-			</div>
-		</div>
+            <div class="inner splash">
+                <section class="vertical brand" ng-controller="textCtrl">
+                    <div class="inner">
+                        <div class="logo sm"><img src="/img/logo_ullo_1.png" class="bounce infinite animated" /></div>
+                        <p>
+                            <span ng-bind="titolo"></span>
+                        </p>
+                        <div ng-repeat="item in items" class="user">
+                            <img ng-src="http://ulloapi.wslabs.it/{{item.picture.route}}" class="image" />
+                            <div ng-bind="item.user.userName" class="name"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
-	<!-- js -->
-	<script src="js/vendors/angular.js"></script>
+    <!-- js -->
+    <script src="js/vendors/angular.js"></script>
     <script src="js/app/app.js"></script>
-	<!--
+    <!--
     <script src="js/vendors.min.js"></script>
     <script src="js/app.min.js"></script>
 	-->
-	<!-- fonts -->
+    <!-- fonts -->
     <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700' rel='stylesheet' type='text/css'>
-	<!-- icons -->
+    <!-- icons -->
     <link href="https://file.myfontastic.com/4VazGfRZHD4neBHyd978RP/icons.css" rel="stylesheet">
 </body>
+
 </html>
