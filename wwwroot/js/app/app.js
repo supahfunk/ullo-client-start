@@ -1,71 +1,81 @@
 /*global angular,FB */
 
-var app = angular.module('ullo', ['ngRoute']);
+var app = angular.module('ullo', ['ngRoute', 'ngAnimate']);
 
-// config parte prima degli altri, ma abbiamo solo alcune dipendenze qua (i provider)
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    
-    $routeProvider.when('/', {     
-       controller: 'TestCtrl',
-       templateUrl: 'templates/test.html',
-       title: 'HomePage!'      
-    }).when('/stream', {     
-       controller: 'TestCtrl',
-       templateUrl: 'templates/test.html',
-       title: 'parametro definito da me'      
-    }).when('/dishes/:dishId', {     
-        controller: 'TestCtrl',
-        templateUrl: 'templates/test.html',
-        title: 'Dishes'
-    }).when('/signin', {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+
+	$routeProvider.when('/', {                
         controller: 'SignInCtrl',
         templateUrl: 'templates/signin-test.html',
-        title: 'Sign In'
+        title: 'Sign In',
+        
+    }).when('/signin', {                
+        controller: 'SignInCtrl',
+        templateUrl: 'templates/signin-test.html',
+        title: 'Sign In',
+        
+    }).when('/stream', {        
+        controller: 'TestCtrl',
+        templateUrl: 'templates/test.html',
+        title: 'TestCtrl',
+        
+    }).when('/dishes/:dishId', {        
+        controller: 'TestCtrl',
+        templateUrl: 'templates/test.html',
+        title: 'Dishes',
+        
+    }).when('/test', {                
+        controller: 'TestCtrl',
+        templateUrl: 'templates/temp.html',
+        title: 'HomePage',
+        
     }).when('/404', {
-       controller: 'TestCtrl',
-       templateUrl: 'templates/test.html',
-       title: 'Pagina non trovata!'      
+        controller: 'TestCtrl',
+        templateUrl: 'templates/test.html',
+        title: 'Errore 404',
+        
     });
     
     $routeProvider.otherwise('/404');
     
+    // HTML5 MODE url writing method (false: #/anchor/use, true: /html5/url/use)
     $locationProvider.html5Mode(true);
     
 }]);
 
-
-app.controller('SignInCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
+app.controller('SignInCtrl', ['$scope', '$timeout', '$http', '$location', function ($scope, $timeout, $http, $location) {
 
     $scope.model = {};
 
     $scope.signin = function () {
-
-        $scope.busy = true;
-
-        $http.post('http://ulloapi.wslabs.it/api/users', $scope.model).then(function (success) {
-            console.log('signin', success);
-        }, function (error) {
-            console.log('error', error);
-        }).finally(function () {
-            $timeout(function () {
-                $scope.busy = false;
-            }, 1000);
-
-        });
-
-
+        $scope.signinFormError = null;
+        $scope.signinFormBchusy = true;
+        $scope.clicked = true;
+        $timeout(function() {
+            $http.post('http://ulloapi.wslabs.it/api/users/signin', $scope.model).then(function(success) {
+                console.log('signin', success);
+                $location.path('/stream');
+            }, function(error) {
+                console.log('error', error);
+                $scope.signinFormError = { message: error.message };
+            }).finally(function() {
+                $timeout(function() {
+                    $scope.signinFormBusy = false;
+                }, 3000);
+            });
+            $scope.clicked = false;
+        }, 1000);
     };
-
+    
 }]);
-
-
+    
 app.controller('TestCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
 
     $scope.model = {
         label: 'Carica',
     };
-    
-    $timeout(function() {
+        
+    setTimeout(function() {
         $scope.model.label = 'Carica Stream';
     }, 1000);
 
@@ -110,8 +120,8 @@ app.controller('TestCtrl', ['$scope', '$timeout', '$http', function ($scope, $ti
     };
     
     $scope.loadStream = function() {
-        $http.get('http://ulloapi.wslabs.it/api/stream/anonymous').then(function(success){
-            $scope.items = success.data;
+        $http.get('http://ulloapi.wslabs.it/api/stream/anonymous').then(function(response){
+            $scope.items = response.data;
         }, function(error) {
             console.log('error', error);
         });
